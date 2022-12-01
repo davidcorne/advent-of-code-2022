@@ -19,9 +19,5 @@ for l in lines:
 
 max_calories = max(elf_calories)
 print(max_calories)
-# Oops, didn't need to find the elf.
-exit()
-elf_number = elf_calories.index(max_calories)
-for i, calories in enumerate(elf_calories):
-    print(f"{i} {calories}")
-print(elf_number + 1)
+elf_calories = sorted(elf_calories, reverse=True)
+print(sum(elf_calories[0:3]))
