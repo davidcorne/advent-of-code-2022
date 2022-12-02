@@ -29,15 +29,15 @@ import unittest
 # What would your total score be if everything goes exactly according to your strategy guide?
 
 SCORE = {
-    "A X": 3 + 1, # Rock Rock
-    "A Y": 6 + 2, # Rock Paper
-    "A Z": 0 + 3, # Rock Scissors
-    "B X": 0 + 1, # Paper Rock
-    "B Y": 3 + 2, # Paper Paper
-    "B Z": 6 + 3, # Paper Scissors
-    "C X": 6 + 1, # Scissors Rock 
-    "C Y": 0 + 2, # Scissors Paper 
-    "C Z": 3 + 3, # Scissors Scissors 
+    "A X": 0 + 3, # Rock Lose, Scissors
+    "A Y": 3 + 1, # Rock Draw, Rock
+    "A Z": 6 + 2, # Rock Win, Paper
+    "B X": 0 + 1, # Paper Lose, Rock
+    "B Y": 3 + 2, # Paper Draw, Paper
+    "B Z": 6 + 3, # Paper Win, Scissors
+    "C X": 0 + 2, # Scissors Lose, Paper
+    "C Y": 3 + 3, # Scissors Draw, Scissors
+    "C Z": 6 + 1, # Scissors Win, Rock
 }
 
 def score_lines(lines):
@@ -51,9 +51,9 @@ def main():
 class ScoreTester(unittest.TestCase):
 
     def test_known_scores(self):
-        self.assertEqual(SCORE["A Y"], 8)
+        self.assertEqual(SCORE["A Y"], 4)
         self.assertEqual(SCORE["B X"], 1)
-        self.assertEqual(SCORE["C Z"], 6)
+        self.assertEqual(SCORE["C Z"], 7)
 
     def test_known_lines(self):
         lines = [
@@ -61,7 +61,7 @@ class ScoreTester(unittest.TestCase):
             "B X",
             "C Z",
         ]
-        self.assertEqual(score_lines(lines), 15)
+        self.assertEqual(score_lines(lines), 12)
 
 unittest.main(exit=False)
 main()
