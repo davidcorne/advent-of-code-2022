@@ -17,14 +17,26 @@ def common_item(rucksack):
     assert len(common) == 1
     return common.pop()
 
-def sum_of_priorities(backpacks):
-    items = [common_item(b) for b in backpacks]
-    return sum([priority(item) for item in items])
+def find_badge(backpack_1, backpack_2, backpack_3):
+    set_1 = set(backpack_1)
+    set_2 = set(backpack_2)
+    set_3 = set(backpack_3)
+    badge = set_1.intersection(set_2, set_3)
+    assert len(badge) == 1
+    return badge.pop()
+
+def sum_of_badges(backpacks):
+    assert len(backpacks) % 3 == 0
+    badges = []
+    for i in range(len(backpacks) // 3):
+        start = 3 * i
+        badges.append(find_badge(backpacks[start], backpacks[start+1], backpacks[start+2]))
+    return sum(priority(b) for b in badges)
 
 def main():
     with open("03-input.txt", "r") as input_file:
         lines = [l.strip() for l in input_file.readlines()]
-    print(sum_of_priorities(lines))
+    print(sum_of_badges(lines))
 
 class ThreeTester(unittest.TestCase):
 
@@ -48,6 +60,12 @@ class ThreeTester(unittest.TestCase):
         self.assertEqual(priority('t'), 20)
         self.assertEqual(priority('s'), 19)
 
+    def test_find_badge(self):
+        badge = find_badge('vJrwpWtwJgWrhcsFMMfFFhFp', 'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL', 'PmmdzqPrVvPwwTWBwg')
+        self.assertEqual(badge, 'r')
+        badge = find_badge('wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn', 'ttgJtRGJQctTZtZT', 'CrZsJsPPZsGzwwsLwLmpwMDw')
+        self.assertEqual(badge, 'Z')
+    
     def test_sum(self):
         rucksacks = ['vJrwpWtwJgWrhcsFMMfFFhFp',
             'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL',
@@ -56,7 +74,7 @@ class ThreeTester(unittest.TestCase):
             'ttgJtRGJQctTZtZT',
             'CrZsJsPPZsGzwwsLwLmpwMDw',
             ]
-        self.assertEqual(sum_of_priorities(rucksacks), 157)
+        self.assertEqual(sum_of_badges(rucksacks), 70)
 
 unittest.main(exit=False)
 main()
