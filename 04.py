@@ -25,12 +25,43 @@ def count_contained_assignments(lines):
             current_count += 1
     return current_count
 
+def overlapping_assignment(line):
+    ''' Return if the line contains overlapping assignments'''
+    assignments_1, assignments_2 = find_assignments(line)
+    return len(assignments_1.intersection(assignments_2)) != 0
+
+def count_overlapping_assignments(lines):
+    current_count = 0
+    for line in lines:
+        if overlapping_assignment(line):
+            current_count += 1
+    return current_count
+
 def main():
     with open("04-input.txt", "r") as input_file:
         lines = [l.strip() for l in input_file.readlines()]
-    print(count_contained_assignments(lines))
+    print(count_overlapping_assignments(lines))
 
 class FourTester(unittest.TestCase):
+
+    def test_overlapping_assignment(self):
+        non_overlapping = ['2-4,6-8', '2-3,4-5']
+        for case in non_overlapping:
+            self.assertFalse(overlapping_assignment(case))
+        overlapping = ['5-7,7-9', '2-8,3-7', '6-6,4-6']
+        for case in overlapping:
+            self.assertTrue(overlapping_assignment(case))
+        
+    def test_count_overlapping(self):
+        lines = [
+            '2-4,6-8',
+            '2-3,4-5',
+            '5-7,7-9',
+            '2-8,3-7',
+            '6-6,4-6',
+            '2-6,4-8'
+        ]
+        self.assertEqual(count_overlapping_assignments(lines), 4)
 
     def test_string_to_assignment(self):
         assignment_set = string_to_assignment_set('44-44')
