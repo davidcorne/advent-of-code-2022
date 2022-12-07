@@ -3,13 +3,23 @@
 import unittest
 
 def priority(item):
-    pass
+    # Is there a better way of doing this? upper and lower case are opposite to ascii so ord doesn't help
+    return 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.find(item) + 1
 
 def common_item(rucksack):
-    pass
+    assert len(rucksack) % 2 == 0
+    compartment_1 = rucksack[0:len(rucksack) // 2]
+    compartment_2 = rucksack[len(rucksack) // 2:]
+    assert rucksack == compartment_1 + compartment_2
+    set_1 = set(compartment_1)
+    set_2 = set(compartment_2)
+    common = set_1.intersection(set_2)
+    assert len(common) == 1
+    return common.pop()
 
 def sum_of_priorities(backpacks):
-    pass
+    items = [common_item(b) for b in backpacks]
+    return sum([priority(item) for item in items])
 
 def main():
     with open("03-input.txt", "r") as input_file:
